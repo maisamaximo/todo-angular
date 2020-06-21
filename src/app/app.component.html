@@ -1,0 +1,31 @@
+<h1 class="title animate__animated animate__rubberBand"> {{ title }} </h1>
+
+<div id="modal" *ngIf="mode == 'add'" class="animate__animated animate__flipInX">
+  <form [formGroup]="form">
+    <fieldset>
+      <label for="task" class="text-center">Task</label>
+      <input id="task" type="text" placeholder="Digite sua task..." maxlength="60" formControlName="title">
+      <small class="danger" *ngIf="form.controls.title.invalid && !form.controls.title.pristine">
+        Este campo deve conter entre 3 e 60 caracteres
+      </small>
+      <p class="text-center">
+        <button class="button" [disabled]="form.invalid" (click)="adicionar()">Adicionar</button>
+      </p>
+    </fieldset>
+  </form>
+</div>
+
+<ul class="animate__animated animate__flipInX" *ngIf="mode == 'lista'">
+  <p class="text-center" *ngIf="todos.length==0">Você não possui tarefas hoje!</p>
+  <li *ngFor="let todo of todos">
+    {{ todo.task }}
+    <button (click)="remove(todo)"><i class="icon-remove-sign"></i></button>
+    <button *ngIf="!todo.done" (click)="markAsDone(todo)"><i class="icon-check-empty"></i></button>
+    <button *ngIf="todo.done" (click)="markAsUnDone(todo)"><i class="icon-check-sign"></i></button>
+  </li>
+</ul>
+
+<button class="animate__animated animate__fadeInUp add-button button" (click)="changeMode('add')"
+  *ngIf="mode=='lista'"><i class="icon-plus"></i> NOVA TASK</button>
+<button class="animate__animated animate__fadeInUp add-button button" (click)="changeMode('lista')"
+  *ngIf="mode=='add'"><i class="icon-remove"></i> CANCELAR</button>
